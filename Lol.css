@@ -1,0 +1,34 @@
+    .resource-container {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(33, 33, 33, 0.95);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            width: 90%;
+            box-sizing: border-box;
+            z-index: 2;
+            color: #fff;
+        }
+
+        .resource-container .resource {
+            margin: 4px;
+            text-align: center;
+        }
+resource-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.resource {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    padding: 0 5px;
+}
