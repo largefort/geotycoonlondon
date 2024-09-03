@@ -317,7 +317,85 @@ function loadGameState() {
             });
         });
 
-        // Similarly load other buildings...
+        gameState.steamEngines.forEach(engineData => {
+            var engine = L.marker(engineData.latlng, {
+                icon: L.icon({
+                    iconUrl: 'steam_engine.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                }),
+                draggable: true
+            }).addTo(map).bindPopup('Steam Engine (Level ' + engineData.level + ')');
+            engine.on('click', function () {
+                upgradeBuilding(steamEngines, engine, 100); // Upgrade cost is 100
+            });
+            steamEngines.push({
+                marker: engine,
+                level: engineData.level,
+                production: engineData.production
+            });
+        });
+
+        gameState.steamboats.forEach(boatData => {
+            var boat = L.marker(boatData.latlng, {
+                icon: L.icon({
+                    iconUrl: 'steamboat.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                }),
+                draggable: true
+            }).addTo(map).bindPopup('Steamboat (Level ' + boatData.level + ')');
+            boat.on('click', function () {
+                upgradeBuilding(steamboats, boat, 200); // Upgrade cost is 200
+            });
+            steamboats.push({
+                marker: boat,
+                level: boatData.level,
+                production: boatData.production
+            });
+        });
+
+        gameState.locomotives.forEach(locoData => {
+            var loco = L.marker(locoData.latlng, {
+                icon: L.icon({
+                    iconUrl: 'locomotive.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                }),
+                draggable: true
+            }).addTo(map).bindPopup('Locomotive (Level ' + locoData.level + ')');
+            loco.on('click', function () {
+                upgradeBuilding(locomotives, loco, 300); // Upgrade cost is 300
+            });
+            locomotives.push({
+                marker: loco,
+                level: locoData.level,
+                production: locoData.production
+            });
+        });
+
+        gameState.electricEngines.forEach(engineData => {
+            var engine = L.marker(engineData.latlng, {
+                icon: L.icon({
+                    iconUrl: 'electric_engine.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                }),
+                draggable: true
+            }).addTo(map).bindPopup('Electric Engine (Level ' + engineData.level + ')');
+            engine.on('click', function () {
+                upgradeBuilding(electricEngines, engine, 400); // Upgrade cost is 400
+            });
+            electricEngines.push({
+                marker: engine,
+                level: engineData.level,
+                production: engineData.production
+            });
+        });
     }
 }
 
