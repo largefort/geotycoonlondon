@@ -312,7 +312,48 @@
         </ul>
         <p class="text-center mt-4">Version: <span id="version">1.0.0</span></p>
     </div>
+    
+    <script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
 
+        if (tabId === 'world-map-tab') {
+            document.getElementById('map').style.pointerEvents = 'auto';
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
+        } else {
+            document.getElementById('map').style.pointerEvents = 'none';
+        }
+    }
+
+    document.addEventListener('touchstart', function(event) {
+        const touch = event.touches[0];
+        createTouchParticle(touch.clientX, touch.clientY);
+    });
+
+    function createTouchParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.className = 'touch-particle';
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        document.body.appendChild(particle);
+
+        particle.addEventListener('animationend', () => {
+            document.body.removeChild(particle);
+        });
+    }
+
+    document.querySelectorAll('.bottom-nav button').forEach(button => {
+        button.addEventListener('click', function() {
+            showTab(button.getAttribute('onclick').match(/'([^']+)'/)[1]);
+        });
+    });
+</script>
+    
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <script src="https://unpkg.com/leaflet-tilelayer-pan@1.0.0/dist/leaflet-tilelayer-pan.min.js"></script>
