@@ -207,7 +207,7 @@
 
 <body>
     <!-- Background Music -->
-    <audio id="background-music" src="soundtracks/smokestacksandsteam.mp3" autoplay loop></audio>
+    <audio id="background-music" src="soundtracks/Smokestacks%20and%20Steam.mp3" autoplay loop></audio>
 
     <div id="map"></div>
 
@@ -257,19 +257,23 @@
     </div>
 
     <!-- Controls Tab -->
-    <div id="controls-tab" class="tab-content container-fluid">
-        <div class="controls">
-            <h3 class="text-center my-4">GeoTycoon: London DLC</h3>
-            <div class="button-container row justify-content-center">
-                <!-- DLC-specific buttons -->
-                <button class="dlc-button col-5" onclick="buySpinningJenny()">Buy Spinning Jenny (£100)</button>
-                <button class="dlc-button col-5" onclick="buySteamEngine()">Buy Steam Engine (£300)</button>
-                <button class="dlc-button col-5" onclick="buySteamboat()">Buy Steamboat (£500)</button>
-                <button class="dlc-button col-5" onclick="buyLocomotive()">Buy Locomotive (£700)</button>
-                <button class="dlc-button col-5" onclick="buyElectricEngine()">Buy Electric Engine (£1000)</button>
-            </div>
+<div id="controls-tab" class="tab-content container-fluid">
+    <div class="controls">
+        <h3 class="text-center my-4">GeoTycoon: London DLC</h3>
+        <div class="button-container row justify-content-center">
+            <!-- DLC-specific buttons -->
+            <button class="dlc-button col-5" onclick="buySpinningJenny()">Buy Spinning Jenny (£100)</button>
+            <button class="dlc-button col-5" onclick="buySteamEngine()">Buy Steam Engine (£300)</button>
+            <button class="dlc-button col-5" onclick="buySteamboat()">Buy Steamboat (£500)</button>
+            <button class="dlc-button col-5" onclick="buyLocomotive()">Buy Locomotive (£700)</button>
+            <button class="dlc-button col-5" onclick="buyElectricEngine()">Buy Electric Engine (£1000)</button>
+        </div>
+        <!-- Weather Information -->
+        <div class="weather-info mt-4">
+            <p class="text-center">Weather: <span id="weather">Fetching...</span></p>
         </div>
     </div>
+</div>
 
     <!-- Settings Tab -->
     <div id="settings-tab" class="tab-content container-fluid">
@@ -312,7 +316,48 @@
         </ul>
         <p class="text-center mt-4">Version: <span id="version">1.0.0</span></p>
     </div>
+    
+    <script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
 
+        if (tabId === 'world-map-tab') {
+            document.getElementById('map').style.pointerEvents = 'auto';
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 100);
+        } else {
+            document.getElementById('map').style.pointerEvents = 'none';
+        }
+    }
+
+    document.addEventListener('touchstart', function(event) {
+        const touch = event.touches[0];
+        createTouchParticle(touch.clientX, touch.clientY);
+    });
+
+    function createTouchParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.className = 'touch-particle';
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        document.body.appendChild(particle);
+
+        particle.addEventListener('animationend', () => {
+            document.body.removeChild(particle);
+        });
+    }
+
+    document.querySelectorAll('.bottom-nav button').forEach(button => {
+        button.addEventListener('click', function() {
+            showTab(button.getAttribute('onclick').match(/'([^']+)'/)[1]);
+        });
+    });
+</script>
+    
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <script src="https://unpkg.com/leaflet-tilelayer-pan@1.0.0/dist/leaflet-tilelayer-pan.min.js"></script>
@@ -335,8 +380,7 @@
     <script src="https://cdn.jsdelivr.net/gh/maneoverland/leaflet.WorldMiniMap@1.0.0/dist/Control.WorldMiniMap.js" integrity="sha512-PFw8St3qenU1/dmwCfiYYN/bRcqY1p3+sBATR+rZ6622eyXOk/8izVtlmm/k8qW7KbRIJsku838WCV5LMs6FCg==" crossorigin=""></script>
     <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
     <script src="dlc.js"></script>
-       <!-- Include developer access control script -->
-    <script src="https://developer.geotycoon.online/js/developerAccessControl.js"></script>
+    <script src="js/generaterevenue.js"></script>
     <script src="switch.js"></script>
     <script src="tapfeedback.js"></script>
     <script src="sidebar.js"></script>
